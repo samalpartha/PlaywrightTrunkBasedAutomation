@@ -19,7 +19,7 @@ export class PseudoLocalizer {
      * @param expansionFactor Factor to extend string length (default 1.3 or 30%)
      */
     static transform(text: string, expansionFactor: number = 1.3): string {
-        let transformed = text.split('').map(char => this.charMap[char] || char).join('');
+        const transformed = text.split('').map(char => this.charMap[char] || char).join('');
 
         // Calculate padding for expansion
         const targetLength = Math.ceil(text.length * expansionFactor);

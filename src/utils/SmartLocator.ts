@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 /**
  * SmartLocator: Enables Auto-Healing capabilities.
@@ -25,7 +25,7 @@ export class SmartLocator {
             const loc = this.page.locator(this.primarySelector);
             await loc.waitFor({ state: 'visible', timeout: 2000 }); // Fast fail
             return loc;
-        } catch (e) {
+        } catch (_e) {
             console.warn(`Primary selector '${this.primarySelector}' failed. Attempting auto-healing...`);
         }
 
@@ -37,7 +37,7 @@ export class SmartLocator {
                 console.info(`Auto-healed using backup selector: '${backup}'`);
                 // Optional: Log this healing event to a file or report
                 return loc;
-            } catch (e) {
+            } catch (_e) {
                 // Continue to next backup
             }
         }
