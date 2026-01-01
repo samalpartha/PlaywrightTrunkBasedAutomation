@@ -10,17 +10,21 @@
         "test:feature": "FEATURE_NEW_CHECKOUT=true playwright test",
         "test:youtube": "playwright test youtube_smoke.spec.ts",
         "test:youtube:shorts": "FEATURE_YOUTUBE_SHORTS=true playwright test youtube_smoke.spec.ts",
-        "test:report": "npm run test && npx allure generate allure-results --clean && npx allure open"
+        "test:report": "npm run test && npx allure generate allure-results --clean && npx allure open",
+        "lint": "eslint ."
     },
     "devDependencies": {
         "@playwright/test": "^1.40.0",
         "@types/jest": "^29.5.10",
         "@types/node": "^20.10.0",
         "@axe-core/playwright": "^4.8.1",
+        "@eslint/js": "^9.0.0",
         "allure-commandline": "^2.25.0",
         "allure-playwright": "^2.10.0",
+        "eslint": "^9.0.0",
         "jest": "^29.7.0",
         "ts-jest": "^29.1.1",
-        "typescript": "^5.3.0"
+        "typescript": "^5.3.0",
+        "typescript-eslint": "^7.0.0"
     }
 }

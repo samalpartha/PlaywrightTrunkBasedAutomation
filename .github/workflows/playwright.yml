@@ -26,7 +26,7 @@ jobs:
       run: npm audit --audit-level=high || echo "Vulnerabilities found"
 
     - name: Run ESLint Security Check
-      run: npx eslint . --ext .ts,.js
+      run: npm run lint
 
     - name: Run Unit Tests (Jest)
       run: npm run test:unit
