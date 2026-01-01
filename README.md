@@ -1,79 +1,80 @@
 # Playwright Trunk Based Development Demo
 
-This project demonstrates how to use **Playwright (TypeScript)** in a **Trunk Based Development** workflow.
+```mermaid
+graph TD
+    A[NPM Scripts] --> B[Playwright Runner]
+    B --> C{Feature Flag Resolver}
+    C -->|Flag Off| D[Stable E2E Tests]
+    C -->|Flag On| E[Beta Feature Tests]
+    
+    subgraph "Verification Engine"
+        F[SmartLocator POM] --> G[Standard Assertions]
+        F --> H[Visual Regression]
+        F --> I[A11y Audit / Axe]
+    end
+    
+    D --> F
+    E --> F
+    
+    subgraph "Infrastructure"
+        J[ESLint 9 / Flat Config]
+        K[TypeScript ESLint v8]
+        L[Allure Result Processor]
+    end
+```
 
-## Key Concepts
-1.  **Feature Toggles**: Code for new features exists in `main` but is disabled by default.
-2.  **Conditional Tests**: Tests for new features are skipped unless the specific flag is enabled.
-3.  **Fast Feedback**: Tests run in parallel.
+Advanced Playwright (TypeScript) automation showcasing Trunk Based Development (TBD) and high-coverage engineering standards.
 
-## Setup
+## 🎯 Testing Coverage
+- **E2E Automation**: Full coverage for Saucedemo (Auth/Checkout) and YouTube.com (Search/Results).
+- **Unit Testing (Jest)**: Fast feedback for core logic like Feature Toggle resolution.
+- **Visual Testing**: Baseline-vs-Checkpoint pixel comparison for critical UI states.
+- **Accessibility (A11y)**: Automatic WCAG 2.1 AA audits integrated into the spec runners via `axe-core`.
+- **Experimental**: YouTube Shorts and experimental UI path verification.
+
+## 🛠 Engineering Standards
+- **Trunk Based Development**: Uses `FeatureToggle.ts` to coordinate releases from `main`, enabling dark launches and conditional tests.
+- **Auto-Healing**: Powered by `SmartLocator.ts` for dynamic recovery from UI shifts.
+- **Localization (Chapter 14)**:
+    - Integrated `PseudoLocalizer` for testing text expansion and Unicode stability.
+    - Automated verification of UI resilience with pseudo-localized strings.
+- **Modern Tooling**:
+    - **ESLint 9 (Flat Config)**: Migrated to `eslint.config.mjs` for future-proof linting.
+    - **TypeScript ESLint v8**: Optimized for the latest TS features.
+
+## 🚀 Getting Started
 ```bash
 npm install
 npx playwright install
 ```
 
-## Running Tests
-
-### 1. Unit Tests (Jest)
-Runs fast, isolated logic tests (e.g., FeatureToggle).
+## 🏃 Execution Commands
 ```bash
+# Unit Tests
 npm run test:unit
-```
 
-### 2. Standard E2E (Playwright)
-Runs the stable end-to-end suite.
-```bash
+# Standard E2E
 npm run test:e2e
-```
 
-### 3. Feature Preview
-Runs E2E with flags enabled.
-```bash
+# Feature Preview (Flags Enabled)
 npm run test:feature
-```
 
-### 3. YouTube Smoke Tests
-Runs the YouTube smoke suite.
-```bash
-npm run test:youtube
-```
+# Linting Check (ESLint 9)
+npm run lint
 
-### 4. YouTube Experimental (Shorts)
-Runs the YouTube suite INCLUDING the shorts test.
-```bash
-npm run test:youtube:shorts
-```
-
-### 4. Visual & Accessibility
-Runs snapshot comparison and WCAG audit.
-```bash
+# Visual & A11y Audit
 npx playwright test visual_a11y.spec.ts
 ```
-*   **Note**: First visual run will fail. Run with `--update-snapshots` to generate baseline.
 
-## Key Features
-*   **Trunk Based Development**: Feature Toggles (`FeatureToggle.ts`) control active code paths.
-*   **Auto-Healing**: `SmartLocator.ts` automatically retries backup selectors if the primary one fails.
-*   **Visual Regression**: Pixel-perfect layout verification.
-*   **Accessibility (A11y)**: Automated WCAG 2.1 AA audits via `axe-core`.
-*   **Fail-Fast CI/CD**: Unit tests run before E2E tests in GitHub Actions.
-*   **Allure Reporting**: Rich HTML test reports.
-
-## Project Structure
-*   `tests/e2e/visual_a11y.spec.ts`: Visual/A11y tests.
-*   `tests/e2e/youtube_smoke.spec.ts`: YouTube.com smoke tests.
-*   `src/pages/YoutubePage.ts`: YouTube POM using `SmartLocator`.
-*   `.github/workflows`: CI pipeline uploading Allure artifacts.
-
-## Reporting
-Generate Allure report locally (runs tests + generates report):
+## 📊 Reporting
+Comprehensive **Allure Reporting** with trends, screenshots, and video traces.
 ```bash
 npm run test:report
+# Or manually
+npx allure generate allure-results --clean -o allure-report && npx allure open allure-report
 ```
 
-Or manually:
-```bash
-npx allure generate allure-results --clean -o allure-report
-npx allure open allure-report
-```
+## 📂 Architecture
+- `src/pages/`: Standard and Smart-Locator POMs.
+- `tests/e2e/`: Feature-flagged and experimental test suites.
+- `.github/workflows/`: Optimized CI pipeline with Allure artifact hosting.
