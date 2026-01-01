@@ -1,0 +1,10 @@
+node_modules/
+test-results/
+playwright-report/
+allure-results/
+allure-report/
+.env
+.DS_Store
+dist/
+coverage/
+tsc_output/
